@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CereFlow-DT · 2-minute pitch</title>
+<meta name="description" content="CereFlow-DT: a digital twin that watches the brain's blood supply. Two-minute pitch.">
+<style>
+  :root {
+    --ink:#132034; --muted:#5d6b7e; --line:#e2e6ec; --bg:#ffffff; --soft:#f4f6f9;
+    --accent:#2f6fdb; --accent-soft:#eaf1ff; --warm:#c2410c; --warm-soft:#fff3ea;
+    --ok:#1f8a4c; --ok-soft:#e8f6ee; --warn:#a86a12; --warn-soft:#fff6e6;
+    --dark:#0d1726;
+  }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; background:var(--dark); overflow:hidden;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--ink); }
+
+  /* 16:9 stage, scaled to fit the window by JS */
+  #stage { position:absolute; left:50%; top:50%; width:1280px; height:720px;
+    transform-origin:center center; background:var(--bg); overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.45); }
+  .slide { position:absolute; inset:0; padding:64px 80px 56px; display:flex; flex-direction:column;
+    opacity:0; visibility:hidden; transition:opacity .35s ease, transform .35s ease; transform:translateX(24px); }
+  .slide.active { opacity:1; visibility:visible; transform:none; }
+  .slide.prev { transform:translateX(-24px); }
+  .notes { display:none; }
+
+  .kicker { font-size:15px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 14px; }
+  h1 { font-size:76px; line-height:1.02; margin:0; letter-spacing:-.02em; }
+  h2 { font-size:46px; line-height:1.12; margin:0 0 30px; letter-spacing:-.01em; }
+  p.lead { font-size:28px; line-height:1.4; color:var(--muted); margin:0; max-width:30ch; }
+  .muted { color:var(--muted); }
+  b.hl { color:var(--accent); }
+  b.warm { color:var(--warm); }
+
+  /* footer on every slide */
+  .foot { position:absolute; left:80px; right:80px; bottom:24px; display:flex; justify-content:space-between;
+    font-size:14px; color:#9aa5b4; }
+
+  /* Slide 1: title */
+  .s-title { background:radial-gradient(1200px 600px at 85% 20%, #e7efff 0%, #fff 60%); justify-content:center; }
+  .s-title h1 span { color:var(--accent); }
+  .s-title .tag { font-size:32px; margin:22px 0 46px; color:var(--ink); max-width:24ch; line-height:1.3; }
+  .hook { display:flex; align-items:center; gap:28px; background:var(--warm-soft); border:1px solid #fbd5bb;
+    border-radius:16px; padding:22px 28px; max-width:760px; }
+  .hook .big { font-size:72px; font-weight:800; color:var(--warm); line-height:1; font-variant-numeric:tabular-nums; }
+  .hook .txt { font-size:24px; line-height:1.4; }
+  .brain-deco { position:absolute; right:80px; top:130px; width:300px; opacity:.95; }
+
+  /* Slide 2: problem */
+  .qs { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:6px; }
+  .q { background:var(--soft); border-radius:16px; padding:28px 26px; border-top:6px solid var(--accent); }
+  .q .n { font-size:15px; font-weight:700; color:var(--accent); letter-spacing:.08em; }
+  .q .t { font-size:28px; font-weight:700; line-height:1.25; margin:10px 0 12px; }
+  .q .d { font-size:19px; line-height:1.45; color:var(--muted); }
+  .users { margin-top:34px; font-size:20px; line-height:1.5; display:flex; gap:10px; flex-wrap:nowrap; align-items:center; }
+  .chip { background:var(--accent-soft); color:#1e4fa8; border-radius:999px; padding:6px 14px; font-size:17px; font-weight:600; white-space:nowrap; }
+
+  /* Slide 3: how */
+  .pipe { width:100%; height:auto; margin:4px 0 22px; }
+  .facts { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  .fact { border:1px solid var(--line); border-radius:14px; padding:18px 20px; }
+  .fact .v { font-size:40px; font-weight:800; line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .fact .l { font-size:17px; color:var(--muted); margin-top:8px; line-height:1.35; }
+  .src { font-size:15px; color:var(--muted); margin-top:16px; }
+
+  /* Slide 4: demo */
+  .s-demo { padding:44px 56px 48px; }
+  .s-demo h2 { margin-bottom:18px; font-size:40px; }
+  .demo { position:relative; flex:1; display:flex; gap:26px; min-height:0; }
+  .shot { position:relative; flex:0 0 760px; align-self:flex-start; }
+  .shot img { width:760px; display:block; border-radius:10px; border:1px solid var(--line); box-shadow:0 10px 30px rgba(19,32,52,.15); }
+  .pin { position:absolute; width:34px; height:34px; border-radius:50%; background:var(--warm); color:#fff;
+    font-weight:800; font-size:18px; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 4px rgba(255,255,255,.9), 0 4px 10px rgba(0,0,0,.25); }
+  .callouts { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px; }
+  .callouts li { display:flex; gap:14px; font-size:20px; line-height:1.4; }
+  .callouts .pin { position:static; flex:0 0 34px; box-shadow:none; }
+
+  /* Slide 5: results */
+  .res { display:grid; grid-template-columns:repeat(2,1fr); gap:20px 26px; }
+  .r { display:flex; gap:22px; align-items:center; border-radius:16px; padding:20px 24px; background:var(--soft); }
+  .r .v { font-size:54px; font-weight:800; line-height:1; min-width:170px; font-variant-numeric:tabular-nums; }
+  .r .l { font-size:20px; line-height:1.4; }
+  .r .l small { display:block; color:var(--muted); font-size:16px; margin-top:4px; }
+  .r.ok { background:var(--ok-soft); } .r.ok .v { color:var(--ok); }
+  .r.ac { background:var(--accent-soft); } .r.ac .v { color:var(--accent); }
+  .r.wa { background:var(--warn-soft); } .r.wa .v { color:var(--warn); }
+  .verify { margin-top:22px; font-size:19px; color:var(--muted); }
+  .verify code { background:var(--soft); color:var(--ink); padding:2px 8px; border-radius:6px; font-size:17px; }
+
+  /* Slide 6: next / ask */
+  .s-end { background:linear-gradient(135deg, #0f1d33 0%, #17325e 100%); color:#fff; }
+  .s-end .kicker { color:#8fb4ff; }
+  .s-end h2 { color:#fff; }
+  .cols { display:grid; grid-template-columns:1.25fr 1fr; gap:40px; }
+  .s-end ul { margin:0; padding:0; list-style:none; }
+  .s-end li { font-size:23px; line-height:1.45; padding:12px 0 12px 34px; position:relative; border-bottom:1px solid rgba(255,255,255,.12); }
+  .s-end li::before { content:"→"; position:absolute; left:0; color:#8fb4ff; font-weight:700; }
+  .ask { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:16px; padding:26px 28px; }
+  .ask h3 { margin:0 0 12px; font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:#ffcf8f; }
+  .ask p { margin:0 0 14px; font-size:22px; line-height:1.45; }
+  .closing { margin-top:auto; font-size:34px; font-weight:700; line-height:1.3; }
+  .closing span { color:#8fb4ff; }
+  .s-end .foot { color:rgba(255,255,255,.45); }
+
+  /* chrome outside the stage */
+  #progress { position:fixed; left:0; bottom:0; height:4px; background:var(--accent); transition:width .3s; z-index:5; }
+  #timebar { position:fixed; left:0; bottom:4px; height:3px; background:#f59e0b; width:0; z-index:5; opacity:0; }
+  #hud { position:fixed; right:14px; bottom:14px; font:13px/1 system-ui, sans-serif; color:#c3cdda;
+    background:rgba(0,0,0,.35); padding:7px 10px; border-radius:8px; z-index:6; user-select:none; }
+  #hud.over { color:#fca5a5; }
+  #notes { position:fixed; left:0; right:0; bottom:0; max-height:34vh; overflow:auto; background:rgba(9,15,26,.94);
+    color:#e7ecf3; padding:16px 22px 22px; font:18px/1.5 system-ui, sans-serif; z-index:7; display:none;
+    border-top:2px solid var(--accent); }
+  #notes .h { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8fb4ff; margin-bottom:6px; }
+  body.show-notes #notes { display:block; }
+  #help { position:fixed; left:14px; bottom:14px; font:12px system-ui, sans-serif; color:#7b8798; z-index:6; }
+  .navbtn { position:fixed; top:0; bottom:0; width:12vw; z-index:4; cursor:pointer; }
+  #navL { left:0; } #navR { right:0; }
+
+  /* print / PDF export: one slide per page */
+  @media print {
+    @page { size:1280px 720px; margin:0; }
+    html, body { overflow:visible; background:#fff; height:auto; }
+    #stage { position:static; transform:none !important; box-shadow:none; width:1280px; height:auto; overflow:visible; }
+    .slide { position:relative; opacity:1 !important; visibility:visible !important; transform:none !important;
+      width:1280px; height:720px; page-break-after:always; break-after:page; }
+    #progress, #timebar, #hud, #notes, #help, .navbtn { display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="stage">
+
+<!-- 1 ─────────────────────────────── HOOK / TITLE -->
+<section class="slide s-title" data-secs="20">
+  <svg class="brain-deco" viewBox="0 0 200 230" aria-hidden="true">
+    <ellipse cx="100" cy="120" rx="92" ry="105" fill="#f6dcae" stroke="#c9a46a" stroke-width="2"/>
+    <line x1="100" y1="16" x2="100" y2="224" stroke="#c9a46a" stroke-width="3"/>
+    <g fill="#5b7ef5"><circle cx="52" cy="48" r="7"/><circle cx="78" cy="48" r="7"/><circle cx="122" cy="48" r="7"/><circle cx="148" cy="48" r="7"/>
+      <circle cx="52" cy="70" r="7"/><circle cx="78" cy="70" r="7"/><circle cx="122" cy="70" r="7"/><circle cx="148" cy="70" r="7"/></g>
+    <text x="55" y="140" text-anchor="middle" font-size="15" font-family="system-ui" fill="#132034">Left</text>
+    <text x="55" y="164" text-anchor="middle" font-size="22" font-weight="800" font-family="system-ui" fill="#a86a12">78%</text>
+    <text x="145" y="140" text-anchor="middle" font-size="15" font-family="system-ui" fill="#132034">Right</text>
+    <text x="145" y="164" text-anchor="middle" font-size="22" font-weight="800" font-family="system-ui" fill="#c2410c">69%</text>
+  </svg>
+  <p class="kicker">Digital Twin Engineering · group pitch</p>
+  <h1>CereFlow<span>-DT</span></h1>
+  <p class="tag">A digital twin that watches the brain's blood supply, live.</p>
+  <div class="hook">
+    <div class="big">69%</div>
+    <div class="txt">When one of our volunteers stood up, blood flow in the right side of the brain fell to <b>69% of normal</b> within seconds.<br><span class="muted">Our twin noticed. Would your monitor?</span></div>
+  </div>
+  <div class="notes">
+    When one of our volunteers stood up, blood flow to the right side of their brain fell to 69% of normal within seconds. In a healthy person that's harmless. After a brain aneurysm bleed, it can mean a stroke. CereFlow-DT is a digital twin that watches the brain's blood supply live.
+  </div>
+  <div class="foot"><span>CereFlow-DT</span><span>1 / 6</span></div>
+</section>
+
+<!-- 2 ─────────────────────────────── PROBLEM -->
+<section class="slide" data-secs="20">
+  <p class="kicker">The problem</p>
+  <h2>Monitors show waveforms.<br>Clinicians need <b class="hl">answers</b>.</h2>
+  <div class="qs">
+    <div class="q"><div class="n">QUESTION 1</div><div class="t">Is enough blood reaching each side of the brain?</div><div class="d">Compared with this person's own baseline, not a textbook average.</div></div>
+    <div class="q"><div class="n">QUESTION 2</div><div class="t">Is the brain still holding its flow steady?</div><div class="d">Cerebral autoregulation: does flow just follow blood pressure?</div></div>
+    <div class="q"><div class="n">QUESTION 3</div><div class="t">Is flow about to drop, and can we trust the sensors?</div><div class="d">Early warning, broken-sensor detection, and a model that says when it's unsure.</div></div>
+  </div>
+  <div class="users"><span class="muted">For:</span>
+    <span class="chip">Clinicians running stand-up / tilt tests</span>
+    <span class="chip">Neurocritical care after an aneurysm bleed</span>
+    <span class="chip">Engineers tuning the monitoring</span>
+  </div>
+  <div class="notes">
+    Bedside monitors show raw waveforms. Staff must work out three things in their heads: is enough blood reaching each side, is the brain still regulating its own flow, and is a drop coming? And is that alarm real, or a loose sensor? CereFlow-DT answers all of these continuously.
+  </div>
+  <div class="foot"><span>CereFlow-DT</span><span>2 / 6</span></div>
+</section>
+
+<!-- 3 ─────────────────────────────── HOW IT WORKS -->
+<section class="slide" data-secs="25">
+  <p class="kicker">How it works</p>
+  <h2>Real recordings in, live brain state out</h2>
+  <svg class="pipe" viewBox="0 0 1120 170" role="img" aria-label="Pipeline: real recordings, replayer, MQTT broker, twin with state model and ML, live dashboard">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8b97a8"/></marker></defs>
+    <g font-family="system-ui, sans-serif">
+      <rect x="0" y="30" width="190" height="96" rx="14" fill="#f4f6f9" stroke="#cfd6e0" stroke-width="2"/>
+      <text x="95" y="70" text-anchor="middle" font-size="22" font-weight="700" fill="#132034">Real data</text>
+      <text x="95" y="98" text-anchor="middle" font-size="16" fill="#5d6b7e">PhysioNet, 10 people</text>
+
+      <rect x="232" y="30" width="190" height="96" rx="14" fill="#eaf1ff" stroke="#2f6fdb" stroke-width="2"/>
+      <text x="327" y="70" text-anchor="middle" font-size="22" font-weight="700" fill="#132034">Replayer</text>
+      <text x="327" y="98" text-anchor="middle" font-size="16" fill="#5d6b7e">original timing, 1–20×</text>
+
+      <rect x="464" y="30" width="190" height="96" rx="14" fill="#fff6e6" stroke="#a86a12" stroke-width="2"/>
+      <text x="559" y="70" text-anchor="middle" font-size="22" font-weight="700" fill="#132034">MQTT</text>
+      <text x="559" y="98" text-anchor="middle" font-size="16" fill="#5d6b7e">1 topic per sensor</text>
+
+      <rect x="696" y="14" width="200" height="128" rx="14" fill="#2f6fdb"/>
+      <text x="796" y="54" text-anchor="middle" font-size="24" font-weight="800" fill="#fff">The twin</text>
+      <text x="796" y="82" text-anchor="middle" font-size="16" fill="#dbe7ff">brain-state model</text>
+      <text x="796" y="104" text-anchor="middle" font-size="16" fill="#dbe7ff">+ 10 s flow forecast</text>
+      <text x="796" y="126" text-anchor="middle" font-size="16" fill="#dbe7ff">+ sensor health</text>
+
+      <rect x="938" y="30" width="182" height="96" rx="14" fill="#f4f6f9" stroke="#cfd6e0" stroke-width="2"/>
+      <text x="1029" y="70" text-anchor="middle" font-size="22" font-weight="700" fill="#132034">Dashboard</text>
+      <text x="1029" y="98" text-anchor="middle" font-size="16" fill="#5d6b7e">live in the browser</text>
+
+      <g stroke="#8b97a8" stroke-width="2.5" fill="none" marker-end="url(#ar)">
+        <path d="M192 78 H228"/><path d="M424 78 H460"/><path d="M656 78 H692"/><path d="M898 78 H934"/>
+      </g>
+      <text x="560" y="166" text-anchor="middle" font-size="15" fill="#5d6b7e">Replayer and twin talk only through the broker: swap the replay for a live patient feed and nothing else changes.</text>
+    </g>
+  </svg>
+  <div class="facts">
+    <div class="fact"><div class="v">52</div><div class="l">real sensor streams of 4 types: Doppler, blood pressure, breathing, NIRS</div></div>
+    <div class="fact"><div class="v">64k</div><div class="l">time steps across 10 healthy adults, ~33 min each</div></div>
+    <div class="fact"><div class="v">4</div><div class="l">derived states: perfusion, autoregulation, posture phase, sensor health</div></div>
+    <div class="fact"><div class="v">10 s</div><div class="l">flow forecast per hemisphere, trained only on data before the replay</div></div>
+  </div>
+  <p class="src">Data: PhysioNet <i>Cardiorespiratory response to orthostatic stress</i> v1.0 · Mukli et al., Front. Physiol. 2021</p>
+  <div class="notes">
+    We use real PhysioNet recordings: 10 adults, 52 sensors, 30 minutes lying down, then standing up. A replayer streams each sensor over MQTT with its original timing. The twin turns them into four live states and forecasts flow 10 seconds ahead. A live patient feed could replace the replay.
+  </div>
+  <div class="foot"><span>CereFlow-DT</span><span>3 / 6</span></div>
+</section>
+
+<!-- 4 ─────────────────────────────── DEMO -->
+<section class="slide s-demo" data-secs="25">
+  <p class="kicker">What the clinician sees</p>
+  <h2>The moment subject 02 stands up</h2>
+  <div class="demo">
+    <div class="shot">
+      <img src="assets/dashboard.png" alt="CereFlow-DT dashboard during subject 02's stand-up: both hemispheres reduced, phase CHALLENGE, ML anomaly flags, sensor-health grid">
+      <!-- pins placed on a 760px-wide copy of the 1500x960 screenshot -->
+      <div class="pin" style="left:6px;top:120px">1</div>
+      <div class="pin" style="left:62px;top:236px">2</div>
+      <div class="pin" style="left:520px;top:42px">3</div>
+      <div class="pin" style="left:744px;top:88px">4</div>
+      <div class="pin" style="left:744px;top:150px">5</div>
+    </div>
+    <ul class="callouts">
+      <li><span class="pin">1</span><span><b>Brain map:</b> left side at 78%, right at 69% of this person's baseline.</span></li>
+      <li><span class="pin">2</span><span><b>State:</b> both sides REDUCED, phase CHALLENGE, autoregulation still INTACT.</span></li>
+      <li><span class="pin">3</span><span><b>Forecast:</b> the drop breaks the 10-second forecast, so it's flagged as an anomaly.</span></li>
+      <li><span class="pin">4</span><span><b>Sensor health:</b> red cells are NIRS channels with bad contact, flagged automatically.</span></li>
+      <li><span class="pin">5</span><span><b>Event log:</b> every state change, time-stamped.</span></li>
+    </ul>
+  </div>
+  <div class="notes">
+    Here is subject 02 standing up. The brain map drops to 78 and 69 percent. Both sides read REDUCED, phase CHALLENGE. The forecaster learned only rest, so the drop is flagged as an anomaly. Red cells are loose sensors it found itself. Everything goes into the event log.
+  </div>
+  <div class="foot"><span>CereFlow-DT</span><span>4 / 6</span></div>
+</section>
+
+<!-- 5 ─────────────────────────────── RESULTS -->
+<section class="slide" data-secs="20">
+  <p class="kicker">Does it work?</p>
+  <h2>Measured, not promised</h2>
+  <div class="res">
+    <div class="r ac"><div class="v">19/20</div><div class="l">hemispheres where the 10 s forecast beats "no change"<small>median 27.5% lower error</small></div></div>
+    <div class="r ok"><div class="v">0</div><div class="l">messages lost at up to 20× speed<small>replay timing within 0.4% of target</small></div></div>
+    <div class="r ok"><div class="v">100%</div><div class="l">of known faulty sensors flagged<small>auto-switches model when blood pressure fails</small></div></div>
+    <div class="r wa"><div class="v">6/10</div><div class="l">stand-ups detected, 3.7–16 s after standing<small>with hand-set thresholds; tuning is next</small></div></div>
+  </div>
+  <p class="verify">Every number here is re-checked by one script: <code>python verify_report.py</code> → <b style="color:var(--ok)">29 / 29 checks OK</b></p>
+  <div class="notes">
+    Results. The forecast beats "no change" on 19 of 20 hemispheres. Zero messages lost up to 20 times speed. Every known faulty sensor flagged. Stand-up detection is 6 of 10: our weak spot, and next to fix. One script re-checks every number.
+  </div>
+  <div class="foot"><span>CereFlow-DT</span><span>5 / 6</span></div>
+</section>
+
+<!-- 6 ─────────────────────────────── NEXT / ASK -->
+<section class="slide s-end" data-secs="10">
+  <p class="kicker">What's next</p>
+  <h2>From toy twin to bedside twin</h2>
+  <div class="cols">
+    <ul>
+      <li>Tune alarm thresholds on held-out subjects to lift 6/10 detection</li>
+      <li>Add a live "coupling network" view of heart, breathing and brain, after Mukli et al. 2021</li>
+      <li>Validate on patient data after aneurysm bleeds</li>
+    </ul>
+    <div class="ask">
+      <h3>One ask</h3>
+      <p>The dataset has elapsed seconds, not dates. We anchor it to a fixed, configurable start time.</p>
+      <p><b>Can we confirm this counts as an absolute timestamp?</b></p>
+    </div>
+  </div>
+  <p class="closing">CereFlow-DT: <span>know the brain is getting enough blood</span>, before it isn't.</p>
+  <div class="notes">
+    Next: tune thresholds, add the paper's coupling-network view, move to patient data. One ask: the dataset has seconds, not dates, so we anchor a fixed start time. Is that acceptable? CereFlow-DT: know the brain is getting enough blood, before it isn't. Thank you.
+  </div>
+  <div class="foot"><span>CereFlow-DT</span><span>6 / 6</span></div>
+</section>
+
+</div>
+
+<div class="navbtn" id="navL" title="Previous"></div>
+<div class="navbtn" id="navR" title="Next"></div>
+<div id="progress"></div>
+<div id="timebar"></div>
+<div id="hud">1 / 6</div>
+<div id="help">← → navigate · N notes · T timer · F fullscreen</div>
+<div id="notes"><div class="h">Speaker notes</div><div id="notesText"></div></div>
+
+<script>
+(() => {
+  const stage = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')];
+  const hud = document.getElementById('hud');
+  const progress = document.getElementById('progress');
+  const timebar = document.getElementById('timebar');
+  const notesText = document.getElementById('notesText');
+  const TOTAL = slides.reduce((s, el) => s + Number(el.dataset.secs || 0), 0); // 120 s
+  let i = 0, t0 = null, tick = null;
+
+  function fit() {
+    const s = Math.min(innerWidth / 1280, innerHeight / 720) * 0.97;
+    stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+  }
+
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((el, k) => {
+      el.classList.toggle('active', k === i);
+      el.classList.toggle('prev', k < i);
+    });
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    notesText.textContent = slides[i].querySelector('.notes')?.textContent.trim() || '';
+    history.replaceState(null, '', '#' + (i + 1));
+    render();
+  }
+
+  function fmt(sec) { sec = Math.max(0, Math.round(sec)); return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); }
+
+  function render() {
+    const budget = slides.slice(0, i + 1).reduce((s, el) => s + Number(el.dataset.secs), 0);
+    let txt = `${i + 1} / ${slides.length}`;
+    if (t0) {
+      const el = (Date.now() - t0) / 1000;
+      txt += ` · ${fmt(el)} / ${fmt(TOTAL)} · slide target ${fmt(budget)}`;
+      hud.classList.toggle('over', el > budget);
+      timebar.style.width = Math.min(100, el / TOTAL * 100) + '%';
+    }
+    hud.textContent = txt;
+  }
+
+  function toggleTimer() {
+    if (t0) { clearInterval(tick); t0 = null; timebar.style.opacity = 0; hud.classList.remove('over'); }
+    else { t0 = Date.now(); timebar.style.opacity = 1; tick = setInterval(render, 250); }
+    render();
+  }
+
+  addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key;
+    if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(k)) { e.preventDefault(); show(i + 1); }
+    else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); show(i - 1); }
+    else if (k === 'Home') show(0);
+    else if (k === 'End') show(slides.length - 1);
+    else if (k === 'n' || k === 'N') document.body.classList.toggle('show-notes');
+    else if (k === 't' || k === 'T') toggleTimer();
+    else if (k === 'f' || k === 'F') {
+      document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.();
+    }
+  });
+  document.getElementById('navL').onclick = () => show(i - 1);
+  document.getElementById('navR').onclick = () => show(i + 1);
+
+  let sx = null;
+  addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', e => {
+    if (sx === null) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1));
+    sx = null;
+  });
+
+  addEventListener('resize', fit);
+  addEventListener('hashchange', () => show((parseInt(location.hash.slice(1)) || 1) - 1));
+  fit();
+  show((parseInt(location.hash.slice(1)) || 1) - 1);
+})();
+</script>
+</body>
+</html>
