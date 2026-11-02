@@ -3,6 +3,8 @@
 Six-slide pitch deck for the CereFlow-DT toy digital twin (Digital Twin Engineering group project).
 It is one static HTML file with no build step and no external dependencies.
 
+**Live:** https://dt-g04.github.io/presentation-pitch-slides/
+
 | # | Slide | Time |
 |---|-------|------|
 | 1 | Hook: brain flow fell to 69% on standing | 0:20 |
@@ -28,11 +30,11 @@ Open `index.html` in a browser.
 
 ## Hosting on GitHub Pages
 
-1. Push this folder to a GitHub repository.
-2. Go to **Settings → Pages → Build and deployment**, choose **Deploy from a branch**, branch `main`, folder `/ (root)`.
-3. The deck is served at `https://<user>.github.io/<repo>/`.
+The workflow `.github/workflows/pages.yml` publishes the deck on every push to `main`.
+It uploads only `index.html`, `assets/` and `.nojekyll`.
 
-`.nojekyll` stops GitHub from running Jekyll over the files.
+One-time setup by a repository admin: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+After that, push to `main` (or run the workflow by hand from the **Actions** tab) and the deck appears at the live URL above within a minute or two.
 
 ## Sources
 
