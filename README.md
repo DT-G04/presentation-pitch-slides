@@ -26,12 +26,21 @@ Open `index.html` in a browser.
 | T | start the timer; the counter turns red when you're behind the per-slide target |
 | F | fullscreen |
 
-`index.html#4` opens slide 4 directly. To export a PDF, print from Chrome (Save as PDF, margins "None"); each slide becomes one page.
+`index.html#4` opens slide 4 directly.
+
+**PDF:** [`cereflow-dt-pitch.pdf`](cereflow-dt-pitch.pdf) has one slide per page. To regenerate it after editing the slides:
+
+```bash
+google-chrome --headless=new --no-pdf-header-footer --virtual-time-budget=6000 \
+  --print-to-pdf=cereflow-dt-pitch.pdf "file://$PWD/index.html"
+```
+
+The full spoken script is in the speaker notes (press N).
 
 ## Hosting on GitHub Pages
 
 The workflow `.github/workflows/pages.yml` publishes the deck on every push to `main`.
-It uploads only `index.html`, `assets/` and `.nojekyll`.
+It uploads only `index.html`, `assets/`, the PDF and `.nojekyll`. The PDF is then at https://dt-g04.github.io/presentation-pitch-slides/cereflow-dt-pitch.pdf.
 
 One-time setup by a repository admin: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 After that, push to `main` (or run the workflow by hand from the **Actions** tab) and the deck appears at the live URL above within a minute or two.

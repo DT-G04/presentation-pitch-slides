@@ -183,7 +183,7 @@
     <div class="txt">When one of our volunteers stood up, blood flow in the right side of the brain fell to <b>69% of normal</b> within seconds.<br><span>Our twin noticed. Would your monitor?</span></div>
   </div>
   <div class="notes">
-    When one of our volunteers stood up, blood flow to the right side of their brain fell to 69% of normal within seconds. In a healthy person that's harmless. After a brain aneurysm bleed, it can mean a stroke. CereFlow-DT is a digital twin that watches the brain's blood supply live.
+    When one of our volunteers stood up, blood flow to the right side of their brain fell to sixty-nine percent of normal, within seconds. In a healthy person, that's harmless. After an aneurysm bleed, it can mean a stroke. This is CereFlow-DT: a digital twin that watches the brain's blood supply, live.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>01 / 06</span></div>
 </section>
@@ -203,7 +203,7 @@
     <span class="u">Engineers tuning the monitoring</span>
   </div>
   <div class="notes">
-    Bedside monitors show raw waveforms. Staff must work out three things in their heads: is enough blood reaching each side, is the brain still regulating its own flow, and is a drop coming? And is that alarm real, or a loose sensor? CereFlow-DT answers all of these continuously.
+    Bedside monitors show raw waveforms. Staff must work out three answers in their heads. One: is enough blood reaching each side of the brain? Two: is the brain still keeping its flow steady? Three: is a drop coming, or is that alarm just a loose sensor? CereFlow-DT answers all three, continuously.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>02 / 06</span></div>
 </section>
@@ -246,7 +246,7 @@
   </div>
   <p class="src">DATA · PhysioNet "Cardiorespiratory response to orthostatic stress" v1.0 · Mukli et al., Front. Physiol. 2021</p>
   <div class="notes">
-    We use real PhysioNet recordings: 10 adults, 52 sensors, 30 minutes lying down, then standing up. A replayer streams each sensor over MQTT with its original timing. The twin turns them into four live states and forecasts flow 10 seconds ahead. A live patient feed could replace the replay.
+    We use real recordings from PhysioNet: ten adults, fifty-two sensors, thirty minutes lying down, then standing up. A replayer streams each sensor over M-Q-T-T with its original timing. The twin turns those streams into four live states and forecasts blood flow ten seconds ahead. And because everything goes through the broker, a live patient feed could replace the replay.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>03 / 06</span></div>
 </section>
@@ -274,7 +274,7 @@
     </ul>
   </div>
   <div class="notes">
-    Here is subject 02 standing up. The brain map drops to 78 and 69 percent. Both sides read REDUCED, phase CHALLENGE. The forecaster learned only rest, so the drop is flagged as an anomaly. Red cells are loose sensors it found itself. Everything goes into the event log.
+    This is subject two, standing up. The brain map drops to seventy-eight and sixty-nine percent. Both sides read reduced, phase challenge. The forecaster only learned rest, so it flags the drop as an anomaly. Red cells are loose sensors it found on its own. And every change goes into the event log.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>04 / 06</span></div>
 </section>
@@ -291,7 +291,7 @@
   </div>
   <p class="verify">Every number re-checked by one script <code>python verify_report.py</code> <b>29 / 29 OK</b></p>
   <div class="notes">
-    Results. The forecast beats "no change" on 19 of 20 hemispheres. Zero messages lost up to 20 times speed. Every known faulty sensor flagged. Stand-up detection is 6 of 10: our weak spot, and next to fix. One script re-checks every number.
+    We measured it. The forecast beats "no change" on nineteen of twenty hemispheres. Zero messages lost at twenty times speed. Every known faulty sensor flagged. Stand-up detection is six of ten: our weak spot, and next to fix. One script re-checks every number.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>05 / 06</span></div>
 </section>
@@ -314,7 +314,7 @@
   </div>
   <p class="closing">CereFlow-DT: <em>know the brain is getting enough blood</em>,<br>before it isn't.</p>
   <div class="notes">
-    Next: tune thresholds, add the paper's coupling-network view, move to patient data. One ask: the dataset has seconds, not dates, so we anchor a fixed start time. Is that acceptable? CereFlow-DT: know the brain is getting enough blood, before it isn't. Thank you.
+    Next: tune thresholds, then patient data. One question: the dataset has seconds, not dates, so we anchor a fixed start time. Is that acceptable? CereFlow-DT: know the brain is getting enough blood, before it isn't. Thank you.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>06 / 06</span></div>
 </section>
