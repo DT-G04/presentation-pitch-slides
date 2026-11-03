@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CereFlow-DT · 2-minute pitch</title>
-<meta name="description" content="CereFlow-DT: a digital twin that watches the brain's blood supply. Two-minute pitch.">
+<meta name="description" content="CereFlow-DT: design pitch for a digital twin that watches the brain's blood supply. Two-minute pitch.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -60,6 +60,9 @@
   .hook .txt { font-size:22px; line-height:1.45; padding:20px 26px 20px 0; }
   .hook .txt span { color:var(--muted); font-style:italic; }
   .brain-deco { position:absolute; right:86px; top:118px; width:300px; }
+  .brain-cap { position:absolute; right:86px; top:476px; width:300px; text-align:center; font-family:var(--mono); font-size:12px; letter-spacing:.14em; color:var(--gold); }
+  .proto { display:inline-block; font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--gold); border:1px solid var(--gold); padding:3px 8px; }
   .trace { position:absolute; left:0; right:0; bottom:30px; width:100%; height:90px; opacity:.55; }
 
   /* 2 · problem */
@@ -169,6 +172,7 @@
       <text x="144" y="168" font-size="26" font-weight="600" fill="#ff7a59">69%</text>
     </g>
   </svg>
+  <div class="brain-cap">FIRST DATA CHECK · PROTOTYPE</div>
   <svg class="trace" viewBox="0 0 1280 90" preserveAspectRatio="none" aria-hidden="true">
     <polyline fill="none" stroke="#52d1dc" stroke-width="1.5"
       points="0,40 80,38 120,44 160,36 200,42 240,38 300,41 340,35 380,43 420,39 470,40 520,37 560,44 600,38 640,41 690,36 720,42 760,39 800,40 840,37 860,44 880,62 900,78 920,70 950,58 990,50 1030,46 1080,43 1120,40 1180,42 1230,38 1280,40"/>
@@ -177,13 +181,13 @@
   </svg>
   <p class="kicker">Digital Twin Engineering · DT-G04</p>
   <h1>CereFlow<em>-DT</em></h1>
-  <p class="tag">A digital twin that watches <b>the brain's blood supply</b>, live.</p>
+  <p class="tag">A digital twin designed to watch <b>the brain's blood supply</b>, live.</p>
   <div class="hook">
     <div class="big">69%</div>
-    <div class="txt">When one of our volunteers stood up, blood flow in the right side of the brain fell to <b>69% of normal</b> within seconds.<br><span>Our twin noticed. Would your monitor?</span></div>
+    <div class="txt">In our first look at the public data, one volunteer stood up and flow in the right side of the brain fell to <b>69% of their baseline</b> within seconds.<br><span>Would today's monitor tell anyone?</span></div>
   </div>
   <div class="notes">
-    When one of our volunteers stood up, blood flow to the right side of their brain fell to sixty-nine percent of normal, within seconds. In a healthy person, that's harmless. After an aneurysm bleed, it can mean a stroke. This is CereFlow-DT: a digital twin that watches the brain's blood supply, live.
+    In our first look at a public dataset, one volunteer stood up and blood flow to the right side of their brain fell to sixty-nine percent of their baseline, within seconds. In a healthy person, that's harmless. After an aneurysm bleed, it can mean a stroke, and today's bedside monitor would not say so. This is CereFlow-DT: our design for a digital twin that watches the brain's blood supply, live.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>01 / 06</span></div>
 </section>
@@ -203,16 +207,16 @@
     <span class="u">Engineers tuning the monitoring</span>
   </div>
   <div class="notes">
-    Bedside monitors show raw waveforms. Staff must work out three answers in their heads. One: is enough blood reaching each side of the brain? Two: is the brain still keeping its flow steady? Three: is a drop coming, or is that alarm just a loose sensor? CereFlow-DT answers all three, continuously.
+    Bedside monitors show raw waveforms. Staff must work out three answers in their heads. One: is enough blood reaching each side of the brain? Two: is the brain still keeping its flow steady? Three: is a drop coming, or is that alarm just a loose sensor? CereFlow-DT is designed to answer all three, continuously.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>02 / 06</span></div>
 </section>
 
 <!-- 3 ─────────────────────────────── HOW IT WORKS -->
 <section class="slide" data-secs="25">
-  <p class="kicker">02 · How it works</p>
-  <h2>Real recordings in, <em>live brain state</em> out</h2>
-  <svg class="pipe" viewBox="0 0 1112 176" role="img" aria-label="Pipeline: real recordings, replayer, MQTT broker, twin with state model and ML, live dashboard">
+  <p class="kicker">02 · The design</p>
+  <h2>Sensor streams in, <em>live brain state</em> out</h2>
+  <svg class="pipe" viewBox="0 0 1112 176" role="img" aria-label="Planned pipeline: recorded data, replayer, MQTT broker, twin with state model and ML, live dashboard">
     <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#52d1dc"/></marker></defs>
     <g font-family="IBM Plex Sans, system-ui, sans-serif">
       <g fill="#112649" stroke="#24406f" stroke-width="1.5">
@@ -224,7 +228,7 @@
         <text x="12" y="48">01</text><text x="242" y="48">02</text><text x="472" y="48">03</text><text x="702" y="32">04</text><text x="936" y="48">05</text>
       </g>
       <g text-anchor="middle" fill="#eef2f8" font-size="22" font-weight="600">
-        <text x="94" y="80">Real data</text><text x="324" y="80">Replayer</text><text x="554" y="80">MQTT</text>
+        <text x="94" y="80">Recordings</text><text x="324" y="80">Replayer</text><text x="554" y="80">MQTT</text>
         <text x="786" y="62" font-size="24">The twin</text><text x="1018" y="80">Dashboard</text>
       </g>
       <g text-anchor="middle" fill="#9db0cc" font-size="15">
@@ -235,29 +239,29 @@
       <g stroke="#52d1dc" stroke-width="2" fill="none" marker-end="url(#ar)">
         <path d="M190 78 H226"/><path d="M420 78 H456"/><path d="M650 78 H686"/><path d="M884 78 H920"/>
       </g>
-      <text x="0" y="170" fill="#9db0cc" font-size="15">Replayer and twin talk only through the broker: swap the replay for a live patient feed and nothing else changes.</text>
+      <text x="0" y="170" fill="#9db0cc" font-size="15">Replayer and twin talk only through the broker, so a live patient feed can later replace the replay with nothing else changing.</text>
     </g>
   </svg>
   <div class="facts">
-    <div class="fact"><div class="v">52</div><div class="l">real sensor streams of 4 types: Doppler, blood pressure, breathing, NIRS</div></div>
-    <div class="fact"><div class="v">64k</div><div class="l">time steps across 10 healthy adults, ~33 min each</div></div>
-    <div class="fact"><div class="v">4</div><div class="l">derived states: perfusion, autoregulation, posture phase, sensor health</div></div>
-    <div class="fact"><div class="v">10 s</div><div class="l">flow forecast per hemisphere, trained only on data before the replay</div></div>
+    <div class="fact"><div class="v">52</div><div class="l">sensor streams of 4 types to ingest: Doppler, blood pressure, breathing, NIRS</div></div>
+    <div class="fact"><div class="v">10</div><div class="l">healthy adults in the public dataset, ~33 min each: lying, then standing</div></div>
+    <div class="fact"><div class="v">4</div><div class="l">live states the twin tracks: perfusion, autoregulation, posture phase, sensor health</div></div>
+    <div class="fact"><div class="v">10 s</div><div class="l">flow forecast per hemisphere, trained only on data the twin has already seen</div></div>
   </div>
   <p class="src">DATA · PhysioNet "Cardiorespiratory response to orthostatic stress" v1.0 · Mukli et al., Front. Physiol. 2021</p>
   <div class="notes">
-    We use real recordings from PhysioNet: ten adults, fifty-two sensors, thirty minutes lying down, then standing up. A replayer streams each sensor over M-Q-T-T with its original timing. The twin turns those streams into four live states and forecasts blood flow ten seconds ahead. And because everything goes through the broker, a live patient feed could replace the replay.
+    Here is the design. We start from public PhysioNet recordings: ten adults, fifty-two sensors, thirty minutes lying down, then standing up. A replayer streams each sensor over M-Q-T-T with its original timing, as if it came from the bedside. The twin turns those streams into four live states and forecasts blood flow ten seconds ahead. Because everything goes through the broker, a live patient feed can later replace the replay without changing the twin.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>03 / 06</span></div>
 </section>
 
 <!-- 4 ─────────────────────────────── DEMO -->
 <section class="slide s-demo" data-secs="25">
-  <p class="kicker">03 · What the clinician sees</p>
-  <h2>The moment subject 02 <em>stands up</em></h2>
+  <p class="kicker">03 · What the clinician will see</p>
+  <h2>Concept: the moment a patient <em>stands up</em> <span class="proto" style="vertical-align:middle;margin-left:10px">Early prototype</span></h2>
   <div class="demo">
     <div class="shot">
-      <img src="assets/dashboard.png" alt="CereFlow-DT dashboard during subject 02's stand-up: both hemispheres reduced, phase CHALLENGE, ML anomaly flags, sensor-health grid">
+      <img src="assets/dashboard.png" alt="Early CereFlow-DT dashboard prototype during subject 02's stand-up: both hemispheres reduced, phase CHALLENGE, ML anomaly flags, sensor-health grid">
       <!-- pins placed on a 746px-wide copy of the 1500x960 screenshot, offset by the 6px frame -->
       <div class="pin" style="left:10px;top:124px">1</div>
       <div class="pin" style="left:66px;top:238px">2</div>
@@ -265,33 +269,36 @@
       <div class="pin" style="left:742px;top:90px">4</div>
       <div class="pin" style="left:742px;top:152px">5</div>
     </div>
+    <div>
     <ul class="callouts">
-      <li><span class="pin">1</span><span><b>Brain map</b> left side at 78%, right at 69% of this person's baseline.</span></li>
-      <li><span class="pin">2</span><span><b>State</b> both sides REDUCED, phase CHALLENGE, autoregulation still INTACT.</span></li>
-      <li><span class="pin">3</span><span><b>Forecast</b> the drop breaks the 10-second forecast, so it's flagged as an anomaly.</span></li>
-      <li><span class="pin">4</span><span><b>Sensor health</b> red cells are NIRS channels with bad contact, flagged automatically.</span></li>
+      <li><span class="pin">1</span><span><b>Brain map</b> flow on each side as a % of this person's own baseline.</span></li>
+      <li><span class="pin">2</span><span><b>State</b> perfusion, posture phase and autoregulation in plain words.</span></li>
+      <li><span class="pin">3</span><span><b>Forecast</b> a drop the 10-second forecast did not expect is flagged as an anomaly.</span></li>
+      <li><span class="pin">4</span><span><b>Sensor health</b> channels with bad contact turn red, so a loose sensor isn't read as a brain event.</span></li>
       <li><span class="pin">5</span><span><b>Event log</b> every state change, time-stamped.</span></li>
     </ul>
+    <p class="src" style="margin:18px 0 0;line-height:1.5">PROTOTYPE · first check on replayed public data (subject 02), not a validated result</p>
+    </div>
   </div>
   <div class="notes">
-    This is subject two, standing up. The brain map drops to seventy-eight and sixty-nine percent. Both sides read reduced, phase challenge. The forecaster only learned rest, so it flags the drop as an anomaly. Red cells are loose sensors it found on its own. And every change goes into the event log.
+    This is the screen we are designing, shown on an early prototype during a first check of the data: subject two, standing up. One: a brain map with each side as a percentage of the person's own baseline. Two: the state in plain words. Three: when flow breaks the ten-second forecast, it is flagged. Four: loose sensors turn red, so they are not mistaken for the brain. Five: every change is time-stamped in the event log.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>04 / 06</span></div>
 </section>
 
 <!-- 5 ─────────────────────────────── RESULTS -->
 <section class="slide" data-secs="20">
-  <p class="kicker">04 · Does it work?</p>
-  <h2>Measured, <em>not promised</em></h2>
+  <p class="kicker">04 · How we'll know it works</p>
+  <h2>Success criteria, <em>set before we measure</em></h2>
   <div class="res">
-    <div class="r c"><div class="v">19/20</div><div class="l">hemispheres where the 10 s forecast beats "no change"<small>median 27.5% lower error</small></div></div>
-    <div class="r g"><div class="v">0</div><div class="l">messages lost at up to 20× speed<small>replay timing within 0.4% of target</small></div></div>
-    <div class="r g"><div class="v">100%</div><div class="l">of known faulty sensors flagged<small>auto-switches model when blood pressure fails</small></div></div>
-    <div class="r y"><div class="v">6/10</div><div class="l">stand-ups detected, <span style="white-space:nowrap">3.7–16 s</span> after standing<small>with hand-set thresholds; tuning is next</small></div></div>
+    <div class="r c"><div class="v">Beat</div><div class="l">"no change" as a 10 s flow forecast<small>on most hemispheres, scored on unseen data</small></div></div>
+    <div class="r g"><div class="v">0</div><div class="l">messages lost when replaying faster than real time<small>with replay timing kept close to the original</small></div></div>
+    <div class="r g"><div class="v">All</div><div class="l">known faulty sensors flagged<small>and a fallback model when blood pressure fails</small></div></div>
+    <div class="r y"><div class="v">Seconds</div><div class="l">from standing up to a stand-up alert<small>for every subject, with tuned thresholds</small></div></div>
   </div>
-  <p class="verify">Every number re-checked by one script <code>python verify_report.py</code> <b>29 / 29 OK</b></p>
+  <p class="verify">Each criterion becomes an automated check <code>python verify_report.py</code> rerun on every change</p>
   <div class="notes">
-    We measured it. The forecast beats "no change" on nineteen of twenty hemispheres. Zero messages lost at twenty times speed. Every known faulty sensor flagged. Stand-up detection is six of ten: our weak spot, and next to fix. One script re-checks every number.
+    How will we know it works? We fix the criteria before we measure. The forecast must beat a simple "no change" guess. The replay must lose no messages, even faster than real time. Every known faulty sensor must be flagged. And a stand-up must raise an alert within seconds. Each criterion becomes an automated check that runs on every change.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>05 / 06</span></div>
 </section>
@@ -299,12 +306,13 @@
 <!-- 6 ─────────────────────────────── NEXT / ASK -->
 <section class="slide s-end" data-secs="10">
   <p class="kicker">05 · What's next</p>
-  <h2>From toy twin to <em>bedside twin</em></h2>
+  <h2>From design to <em>bedside twin</em></h2>
   <div class="cols">
     <ol>
-      <li>Tune alarm thresholds on held-out subjects to lift 6/10 detection</li>
+      <li>Build the full twin on the replayed public data and run every check</li>
+      <li>Tune alarm thresholds on held-out subjects</li>
       <li>Add a live "coupling network" view of heart, breathing and brain, after Mukli et al. 2021</li>
-      <li>Validate on patient data after aneurysm bleeds</li>
+      <li>Later: validate on patient data after aneurysm bleeds</li>
     </ol>
     <div class="ask">
       <h3>One ask</h3>
@@ -314,7 +322,7 @@
   </div>
   <p class="closing">CereFlow-DT: <em>know the brain is getting enough blood</em>,<br>before it isn't.</p>
   <div class="notes">
-    Next: tune thresholds, then patient data. One question: the dataset has seconds, not dates, so we anchor a fixed start time. Is that acceptable? CereFlow-DT: know the brain is getting enough blood, before it isn't. Thank you.
+    Next: build the full twin on the public data and run every check, tune the alarms, and later move to patient data. One question: the dataset has seconds, not dates, so we anchor a fixed start time. Is that acceptable? CereFlow-DT: know the brain is getting enough blood, before it isn't. Thank you.
   </div>
   <div class="foot"><span>CEREFLOW-DT</span><span>06 / 06</span></div>
 </section>
